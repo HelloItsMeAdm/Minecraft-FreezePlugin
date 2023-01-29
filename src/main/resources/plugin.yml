@@ -1,0 +1,7 @@
+name: FreezePlugin
+version: '${project.version}'
+main: com.helloitsmeadm.freezeplugin
+api-version: 1.19
+authors: [ HelloItsMeAdm ]
+description: Simple Freeze plugin, that allows player to freeze another player to force him some GUI.
+website: https://www.vojtech-adam.cz/
