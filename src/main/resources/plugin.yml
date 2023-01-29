@@ -5,3 +5,10 @@ api-version: 1.19
 authors: [ HelloItsMeAdm ]
 description: Simple Freeze plugin, that allows player to freeze another player to force him some GUI.
 website: https://www.vojtech-adam.cz/
+commands:
+    freeze:
+        description: Freeze player
+        usage: /freeze <player>
+    unfreeze:
+        description: Unfreeze player
+        usage: /unfreeze <player>
