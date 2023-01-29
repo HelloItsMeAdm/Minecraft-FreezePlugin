@@ -32,6 +32,7 @@ public class Listeners implements Listener {
         Player player = event.getPlayer();
         if (DatabaseManager.isFrozen(player.getName())) {
             Bukkit.getLogger().info("Player " + player.getName() + " has disconnected while being frozen.");
+            DatabaseManager.removeFrozenPlayer(player.getName());
         }
     }
 }
