@@ -58,9 +58,13 @@ public class DatabaseManager {
         // Add messages
         config.addDefault("noTarget", "§cYou must specify a target.");
         config.addDefault("targetNotFound", "§cTargetted player was not found.");
-        config.addDefault("targetIsSelf", "§cYou cannot freeze yourself.");
+        config.addDefault("targetIsSelf", "§cYou cannot (un)freeze yourself.");
         config.addDefault("targetAlreadyFrozen", "§cTargetted player is already frozen.");
         config.addDefault("targetFrozen", "§aPlayer §e%target% §awas frozen.");
+        config.addDefault("targetUnfrozen", "§aPlayer §e%target% §awas unfrozen.");
+        config.addDefault("targetNotFrozen", "§cTargetted player is not frozen.");
+        config.addDefault("targetFreezeChatMessage", "§cYou were frozen!");
+        config.addDefault("targetUnfreezeChatMessage", "§aYou were unfrozen!");
 
         // Save config
         config.options().copyDefaults(true);

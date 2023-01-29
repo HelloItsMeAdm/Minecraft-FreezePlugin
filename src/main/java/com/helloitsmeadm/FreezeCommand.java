@@ -55,6 +55,7 @@ public class FreezeCommand implements CommandExecutor {
         DatabaseManager.addFrozenPlayer(target.getName());
 
         sender.sendMessage(DatabaseManager.getConfig("prefix") + DatabaseManager.getConfig("targetFrozen").replace("%target%", target.getName()));
+        target.sendMessage(DatabaseManager.getConfig("prefix") + DatabaseManager.getConfig("targetFreezeChatMessage"));
     }
 
     private void buildInventory(Player target) {

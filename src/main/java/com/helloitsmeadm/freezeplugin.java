@@ -17,7 +17,7 @@ public final class freezeplugin extends JavaPlugin {
         }
 
         getCommand("freeze").setExecutor(new FreezeCommand());
-        //getCommand("unfreeze").setExecutor(new UnfreezeCommand());
+        getCommand("unfreeze").setExecutor(new UnfreezeCommand());
 
         getServer().getPluginManager().registerEvents(new Listeners(), this);
     }
