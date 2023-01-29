@@ -3,12 +3,18 @@ package com.helloitsmeadm;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.IOException;
+
 public final class freezeplugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        // Plugin startup logic
-        Bukkit.getLogger().info("FreezePlugin has been enabled!");
+        // Config
+        try {
+            DatabaseManager.createDefaultConfig();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         getCommand("freeze").setExecutor(new FreezeCommand());
         //getCommand("unfreeze").setExecutor(new UnfreezeCommand());

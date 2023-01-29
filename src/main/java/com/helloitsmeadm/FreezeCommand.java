@@ -1,7 +1,6 @@
 package com.helloitsmeadm;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -18,19 +17,19 @@ public class FreezeCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args[0] == null) {
-            sender.sendMessage("§8[§aFreeze§8] §7- §cPlayer was not specified.");
+            sender.sendMessage(DatabaseManager.getConfig("prefix") + DatabaseManager.getConfig("noTarget"));
             return true;
         }
 
         Player target = Bukkit.getPlayer(args[0]);
         if (target == null || !target.isOnline()) {
-            sender.sendMessage("§8[§aFreeze§8] §7- §cTargetted player was not found.");
+            sender.sendMessage(DatabaseManager.getConfig("prefix") + DatabaseManager.getConfig("targetNotFound"));
             return true;
         } else if (target == sender) {
-            sender.sendMessage("§8[§aFreeze§8] §7- §cYou cannot freeze yourself.");
+            sender.sendMessage(DatabaseManager.getConfig("prefix") + DatabaseManager.getConfig("targetIsSelf"));
             return true;
         } else if (DatabaseManager.isFrozen(target.getName())) {
-            sender.sendMessage("§8[§aFreeze§8] §7- §cTargetted player is already frozen.");
+            sender.sendMessage(DatabaseManager.getConfig("prefix") + DatabaseManager.getConfig("targetAlreadyFrozen"));
             return true;
         }
         freeze(target, sender);
@@ -55,12 +54,12 @@ public class FreezeCommand implements CommandExecutor {
         // Add player to database
         DatabaseManager.addFrozenPlayer(target.getName());
 
-        sender.sendMessage("§8[§aFreeze§8] §7- §aPlayer " + target.getName() + " was freezed.");
+        sender.sendMessage(DatabaseManager.getConfig("prefix") + DatabaseManager.getConfig("targetFrozen").replace("%target%", target.getName()));
     }
 
     private void buildInventory(Player target) {
-        inv = Bukkit.createInventory(null, 9, "§c§lByl jsi zmražen!");
-        inv.setItem(4, new ItemBuilder(Material.BARRIER).setName("§cByl jsi zmražen!").setLore("§c§lSubtitle").setEnchanted(true).toItemStack());
+        inv = Bukkit.createInventory(null, 9, DatabaseManager.getConfig("inventoryTitle"));
+        inv.setItem(4, new ItemBuilder().toItemStack());
         openInventory(target);
     }
 }
