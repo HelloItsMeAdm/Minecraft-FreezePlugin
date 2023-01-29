@@ -13,16 +13,21 @@ import java.util.Objects;
 import static com.helloitsmeadm.FreezeCommand.openInventory;
 
 public class Listeners implements Listener {
+    final FreezePlugin freezePlugin;
+
+    public Listeners(FreezePlugin freezePlugin) {
+        this.freezePlugin = freezePlugin;
+    }
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-        if (DatabaseManager.isFrozen(event.getWhoClicked().getName())) {
+        if (this.freezePlugin.databaseManager.isFrozen(event.getWhoClicked().getName())) {
             event.setCancelled(true);
         }
     }
 
     @EventHandler
     public void onIC(final InventoryCloseEvent event) {
-        if (DatabaseManager.isFrozen(event.getPlayer().getName())) {
+        if (this.freezePlugin.databaseManager.isFrozen(event.getPlayer().getName())) {
             Bukkit.getScheduler().scheduleSyncDelayedTask(Objects.requireNonNull(Bukkit.getPluginManager().getPlugin("FreezePlugin")), () -> openInventory((Player) event.getPlayer()), 1);
         }
     }
@@ -30,9 +35,9 @@ public class Listeners implements Listener {
     @EventHandler
     public void onDisconnect(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-        if (DatabaseManager.isFrozen(player.getName())) {
+        if (this.freezePlugin.databaseManager.isFrozen(player.getName())) {
             Bukkit.getLogger().info("Player " + player.getName() + " has disconnected while being frozen.");
-            DatabaseManager.removeFrozenPlayer(player.getName());
+            this.freezePlugin.databaseManager.removeFrozenPlayer(player.getName());
         }
     }
 }

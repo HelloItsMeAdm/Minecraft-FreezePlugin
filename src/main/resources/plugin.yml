@@ -1,6 +1,6 @@
 name: FreezePlugin
 version: '${project.version}'
-main: com.helloitsmeadm.freezeplugin
+main: com.helloitsmeadm.FreezePlugin
 api-version: 1.19
 authors: [ HelloItsMeAdm ]
 description: Simple Freeze plugin, that allows player to freeze another player to force him some GUI.

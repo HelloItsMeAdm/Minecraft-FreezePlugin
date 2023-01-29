@@ -1,0 +1,22 @@
+# This is the main configuration file for Freeze.
+#
+# General settings
+prefix: '§8[§aFreeze§8] §7- '
+# GUI settings
+inventoryTitle: §cYou are frozen!
+itemId: PAPER
+itemName: §cUnfreeze
+itemLore:
+  - §7Click to unfreeze
+  - §7yourself!
+itemGlow: true
+# Messages
+noTarget: §cYou must specify a target.
+targetNotFound: §cTargetted player was not found.
+targetIsSelf: §cYou cannot (un)freeze yourself.
+targetAlreadyFrozen: §cTargetted player is already frozen.
+targetFrozen: §aPlayer §e%target% §awas frozen.
+targetUnfrozen: §aPlayer §e%target% §awas unfrozen.
+targetNotFrozen: §cTargetted player is not frozen.
+targetFreezeChatMessage: §cYou were frozen!
+targetUnfreezeChatMessage: §aYou were unfrozen!

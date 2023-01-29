@@ -9,6 +9,12 @@ import org.bukkit.inventory.Inventory;
 
 public class FreezeCommand implements CommandExecutor {
     static Inventory inv;
+    final FreezePlugin freezePlugin;
+
+    public FreezeCommand(FreezePlugin freezePlugin) {
+        inv = Bukkit.createInventory(null, 9, freezePlugin.databaseManager.getConfig("inventoryTitle"));
+        this.freezePlugin = freezePlugin;
+    }
 
     public static void openInventory(Player player) {
         player.openInventory(inv);
@@ -17,19 +23,19 @@ public class FreezeCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args[0] == null) {
-            sender.sendMessage(DatabaseManager.getConfig("prefix") + DatabaseManager.getConfig("noTarget"));
+            sender.sendMessage(this.freezePlugin.databaseManager.getConfig("prefix") + this.freezePlugin.databaseManager.getConfig("noTarget"));
             return true;
         }
 
         Player target = Bukkit.getPlayer(args[0]);
         if (target == null || !target.isOnline()) {
-            sender.sendMessage(DatabaseManager.getConfig("prefix") + DatabaseManager.getConfig("targetNotFound"));
+            sender.sendMessage(this.freezePlugin.databaseManager.getConfig("prefix") + this.freezePlugin.databaseManager.getConfig("targetNotFound"));
             return true;
         } else if (target == sender) {
-            sender.sendMessage(DatabaseManager.getConfig("prefix") + DatabaseManager.getConfig("targetIsSelf"));
+            sender.sendMessage(this.freezePlugin.databaseManager.getConfig("prefix") + this.freezePlugin.databaseManager.getConfig("targetIsSelf"));
             return true;
-        } else if (DatabaseManager.isFrozen(target.getName())) {
-            sender.sendMessage(DatabaseManager.getConfig("prefix") + DatabaseManager.getConfig("targetAlreadyFrozen"));
+        } else if (this.freezePlugin.databaseManager.isFrozen(target.getName())) {
+            sender.sendMessage(this.freezePlugin.databaseManager.getConfig("prefix") + this.freezePlugin.databaseManager.getConfig("targetAlreadyFrozen"));
             return true;
         }
         freeze(target, sender);
@@ -52,15 +58,15 @@ public class FreezeCommand implements CommandExecutor {
         buildInventory(target);
 
         // Add player to database
-        DatabaseManager.addFrozenPlayer(target.getName());
+        this.freezePlugin.databaseManager.addFrozenPlayer(target.getName());
 
-        sender.sendMessage(DatabaseManager.getConfig("prefix") + DatabaseManager.getConfig("targetFrozen").replace("%target%", target.getName()));
-        target.sendMessage(DatabaseManager.getConfig("prefix") + DatabaseManager.getConfig("targetFreezeChatMessage"));
+        sender.sendMessage(this.freezePlugin.databaseManager.getConfig("prefix") + this.freezePlugin.databaseManager.getConfig("targetFrozen").replace("%target%", target.getName()));
+        target.sendMessage(this.freezePlugin.databaseManager.getConfig("prefix") + this.freezePlugin.databaseManager.getConfig("targetFreezeChatMessage"));
     }
 
     private void buildInventory(Player target) {
-        inv = Bukkit.createInventory(null, 9, DatabaseManager.getConfig("inventoryTitle"));
-        inv.setItem(4, new ItemBuilder().toItemStack());
+        inv = Bukkit.createInventory(null, 9, this.freezePlugin.databaseManager.getConfig("inventoryTitle"));
+        inv.setItem(4, new ItemBuilder(this.freezePlugin).toItemStack());
         openInventory(target);
     }
 }

@@ -9,22 +9,27 @@ import org.bukkit.entity.Player;
 import java.util.Objects;
 
 public class UnfreezeCommand implements CommandExecutor {
+    final FreezePlugin freezePlugin;
+
+    public UnfreezeCommand(FreezePlugin freezePlugin) {
+        this.freezePlugin = freezePlugin;
+    }
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args[0] == null) {
-            sender.sendMessage(DatabaseManager.getConfig("prefix") + DatabaseManager.getConfig("noTarget"));
+            sender.sendMessage(this.freezePlugin.databaseManager.getConfig("prefix") + this.freezePlugin.databaseManager.getConfig("noTarget"));
             return true;
         }
 
         Player target = Bukkit.getPlayer(args[0]);
         if (target == null || !target.isOnline()) {
-            sender.sendMessage(DatabaseManager.getConfig("prefix") + DatabaseManager.getConfig("targetNotFound"));
+            sender.sendMessage(this.freezePlugin.databaseManager.getConfig("prefix") + this.freezePlugin.databaseManager.getConfig("targetNotFound"));
             return true;
         } else if (target == sender) {
-            sender.sendMessage(DatabaseManager.getConfig("prefix") + DatabaseManager.getConfig("targetIsSelf"));
+            sender.sendMessage(this.freezePlugin.databaseManager.getConfig("prefix") + this.freezePlugin.databaseManager.getConfig("targetIsSelf"));
             return true;
-        } else if (!DatabaseManager.isFrozen(target.getName())) {
-            sender.sendMessage(DatabaseManager.getConfig("prefix") + DatabaseManager.getConfig("targetNotFrozen"));
+        } else if (!this.freezePlugin.databaseManager.isFrozen(target.getName())) {
+            sender.sendMessage(this.freezePlugin.databaseManager.getConfig("prefix") + this.freezePlugin.databaseManager.getConfig("targetNotFrozen"));
             return true;
         }
         unfreeze(target, sender);
@@ -42,10 +47,10 @@ public class UnfreezeCommand implements CommandExecutor {
         target.setCanPickupItems(true);
 
         // Remove player from database
-        DatabaseManager.removeFrozenPlayer(target.getName());
+        this.freezePlugin.databaseManager.removeFrozenPlayer(target.getName());
 
-        sender.sendMessage(DatabaseManager.getConfig("prefix") + DatabaseManager.getConfig("targetUnfrozen").replace("%target%", target.getName()));
-        target.sendMessage(DatabaseManager.getConfig("prefix") + DatabaseManager.getConfig("targetUnfreezeChatMessage"));
+        sender.sendMessage(this.freezePlugin.databaseManager.getConfig("prefix") + this.freezePlugin.databaseManager.getConfig("targetUnfrozen").replace("%target%", target.getName()));
+        target.sendMessage(this.freezePlugin.databaseManager.getConfig("prefix") + this.freezePlugin.databaseManager.getConfig("targetUnfreezeChatMessage"));
 
         // Close inventory after delay
         Bukkit.getScheduler().scheduleSyncDelayedTask(Objects.requireNonNull(Bukkit.getPluginManager().getPlugin("FreezePlugin")), target::closeInventory, 1);
